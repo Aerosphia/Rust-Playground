@@ -18,10 +18,6 @@ fn main() {
             .read_line(&mut raw_input)
             .expect("Error: read_line operation failed");
   
-        if !is_numeric_string(&raw_input) {
-            std::process::exit(0);
-        }
-  
         digits[i] = match raw_input.trim().parse::<usize>() {
             Ok(n) => n,
             Err(_) => {
@@ -37,7 +33,8 @@ fn main() {
   
     println!("c = {:.2}", final_result)
 }
-  
+
+/*
 fn is_numeric_string(string: &String) -> bool {
     for char in string.chars() {
         let ignore_chars: [char; 4] = [' ', '\n', '-', '.'];
@@ -48,3 +45,4 @@ fn is_numeric_string(string: &String) -> bool {
     }
     return true
 }
+*/
