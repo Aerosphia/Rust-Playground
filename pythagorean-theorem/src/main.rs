@@ -1,8 +1,10 @@
+use std::{io, process};
+
 fn main() {
     // Generate prologue
     println!("=======================================");
   
-    println!("Welcome to the Pythagorean Theorem checker!");
+    println!("Welcome to the Pythagorean Theorem Calculator!");
     println!("🎲 🎲\n");
   
     // Initialize and iterate
@@ -14,14 +16,14 @@ fn main() {
       
         println!("Digit {}:", read_i);
   
-        std::io::stdin()
+        io::stdin()
             .read_line(&mut raw_input)
             .expect("Error: read_line operation failed");
   
         digits[i] = match raw_input.trim().parse::<usize>() {
             Ok(n) => n,
             Err(_) => {
-                std::process::exit(0);
+                process::exit(0);
             },
         };
     }
@@ -33,16 +35,3 @@ fn main() {
   
     println!("c = {:.2}", final_result)
 }
-
-/*
-fn is_numeric_string(string: &String) -> bool {
-    for char in string.chars() {
-        let ignore_chars: [char; 4] = [' ', '\n', '-', '.'];
-        let includes: bool = ignore_chars.iter().any(|v| v == &char);
-        if !char.is_numeric() && !includes {
-            return false
-        }
-    }
-    return true
-}
-*/
