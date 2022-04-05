@@ -1,11 +1,16 @@
 use std::{io, process};
 
+const PROLOGUE: &str = "
+    =======================================
+    Welcome to the Pythagorean Theorem Calculator!
+    It takes two integers, and calculates the hypotenuse.
+
+    🎲 🎲
+    ";
+
 fn main() {
     // Generate prologue
-    println!("=======================================");
-
-    println!("Welcome to the Pythagorean Theorem Calculator!");
-    println!("🎲 🎲\n");
+    println!("{}", PROLOGUE);
 
     // Initialize and iterate
     let mut digits = [0, 0];
@@ -16,9 +21,7 @@ fn main() {
 
         println!("Digit {}:", read_i);
 
-        io::stdin()
-            .read_line(&mut raw_input)
-            .expect("Error: read_line operation failed");
+        io::stdin().read_line(&mut raw_input).expect("Error");
 
         digits[i] = raw_input
             .trim()
@@ -27,9 +30,8 @@ fn main() {
     }
 
     // Calculate results
-    println!("🤔 🤔\n");
     let equation: usize = digits[0].pow(2) + digits[1].pow(2);
     let final_result: f32 = (equation as f32).sqrt();
 
-    println!("c = {:.2}", final_result)
+    println!("🤔 🤔\n\nHypotenuse = {:.2}", final_result)
 }
