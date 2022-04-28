@@ -1,0 +1,38 @@
+fn roman_equiv(roman: char) -> Option<i32> {
+    return match roman {
+        'I' => Some(1),
+        'V' => Some(5),
+        'X' => Some(10),
+        'L' => Some(50),
+        'C' => Some(100),
+        'D' => Some(500),
+        'M' => Some(1000),
+        _ => None,
+    }
+}
+
+impl Solution {
+    pub fn roman_to_int(s: String) -> i32 {
+        // Take the input string and insert all numbers into
+        // a vector so they can be added to produce a result.
+        let mut number_vector: Vec<i32> = vec![];
+        let mut vector_sum;
+        
+        // For each character in the provided string, input
+        // the corresponding number value for the roman numeral
+        // inside the vector.
+        for c in s.chars() {
+            // Guaranteed user validation.
+            match roman_equiv(c) {
+                Some(v) => number_vector.push(v),
+                None => panic!("No correspondent or out of range [1, 3999]"),
+            }
+        }
+        
+        // Assign the sum of the vector.
+        vector_sum = number_vector.iter().sum();
+        
+        // Return the result.
+        vector_sum
+    }
+}
