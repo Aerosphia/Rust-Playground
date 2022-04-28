@@ -28,6 +28,25 @@ impl Solution {
                 None => panic!("No correspondent or out of range [1, 3999]"),
             }
         }
+
+        // If a roman numeral is less than the one before it, we want to
+        // perform subtraction. This allows for "IV" to equal 4 instead of 6.
+        for n in 0..number_vector.len() {
+            let mut curr: i32 = number_vector[n];
+            // Using .get() to get an Option.
+            let mut pnext: Option<&i32> = number_vector.get(n + 1);
+            let mut next: i32;
+            
+            next = match pnext {
+                Some(v) => *v,
+                None => -1,
+            };
+            
+            if (curr > 0 && next != -1) && curr < next {
+                number_vector[n] = next - curr;
+                number_vector[n + 1] = 0;
+            }
+        }
         
         // Assign the sum of the vector.
         vector_sum = number_vector.iter().sum();
