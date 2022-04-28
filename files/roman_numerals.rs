@@ -16,7 +16,7 @@ impl Solution {
         // Take the input string and insert all numbers into
         // a vector so they can be added to produce a result.
         let mut number_vector: Vec<i32> = vec![];
-        let mut vector_sum;
+        let mut vector_sum: i32;
         
         // For each character in the provided string, input
         // the corresponding number value for the roman numeral
