@@ -39,10 +39,10 @@ impl Solution {
             
             next = match pnext {
                 Some(v) => *v,
-                None => -1,
+                None => continue,
             };
             
-            if (curr > 0 && next != -1) && curr < next {
+            if curr > 0 && curr < next {
                 number_vector[n] = next - curr;
                 number_vector[n + 1] = 0;
             }
