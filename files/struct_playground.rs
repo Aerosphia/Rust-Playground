@@ -55,6 +55,7 @@ fn prompt() -> (InputValues, Command) {
 
     let validator = Regex::new("^access @(.*)").unwrap();
     let mut cmd_input = String::new();
+    
     println!("Command:");
     io::stdin().read_line(&mut cmd_input).expect("Error");
 
