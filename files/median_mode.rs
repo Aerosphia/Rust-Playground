@@ -8,7 +8,7 @@ fn main() {
 
     // Get the median.
     let length: i32 = integers.len() as i32;
-    let is_even: bool = length % 2 == 0;
+    let is_even: bool = length ^ 1 == length + 1;
     let median: i32;
 
     if is_even {
