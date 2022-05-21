@@ -54,7 +54,7 @@ fn prompt() -> Vec<i32> {
 }
 
 // Get the key associated to a value using hash maps.
-fn key_from<K, V: std::cmp::PartialEq>(map: &HashMap<K, V>, value: V) -> Option<&K> {
+fn key_from<K, V: std::cmp::PartialEq>(map: &HashMap<K, V>, val: V) -> Option<&K> {
     map.iter()
-        .find_map(|(k, v)| if *v == value { Some(k) } else { None })
+        .find_map(|(k, v)| if *v == val { Some(k) } else { None })
 }
