@@ -8,6 +8,7 @@ fn main() {
 
     // Get the median.
     let length: i32 = integers.len() as i32;
+    // Use XOR gate as opposted to modulo as it tends to be (despite in terms of nanoseconds) a tad faster.
     let is_even: bool = length ^ 1 == length + 1;
     let median: i32;
 
