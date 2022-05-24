@@ -31,8 +31,8 @@ fn main() {
     }
 
     let occurence_values: Vec<u32> = occurrences.values().cloned().collect();
-    let mode: i32 =
-        *key_from::<i32, u32>(&occurrences, *occurence_values.iter().max().unwrap()).unwrap();
+    let max_occurence: u32 = *occurence_values.iter().max().unwrap();
+    let mode: i32 = *key_from::<i32, u32>(&occurrences, max_occurence).unwrap();
 
     // Output results.
     println!("Median: {}, Mode: {}", median, mode);
@@ -54,7 +54,10 @@ fn prompt() -> Vec<i32> {
 }
 
 // Get the key associated to a value using hash maps.
-fn key_from<K, V: std::cmp::PartialEq>(map: &HashMap<K, V>, val: V) -> Option<&K> {
+fn key_from<K, V>(map: &HashMap<K, V>, val: V) -> Option<&K>
+where
+    V: PartialEq,
+{
     map.iter()
         .find_map(|(k, v)| if *v == val { Some(k) } else { None })
 }
