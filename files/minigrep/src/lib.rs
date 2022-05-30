@@ -34,6 +34,7 @@ impl Config {
     }
 }
 
+/// Runs default application logic with a configuration structure.
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     println!(
         "Searching \"{}\" in file: `{}`..",
@@ -72,6 +73,22 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
     Ok(())
 }
 
+/// Searches each line in a string slice for a certain subquery.
+///
+/// # Examples
+///
+/// ```
+/// let query: &'static str = "lorem";
+/// let contents: &'static str = "\n
+/// Lorem ipsum dolor\n
+/// sit amet Lorem,\n
+/// consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+///
+/// assert_eq!(
+///     vec!["Lorem ipsum dolor", "sit amet Lorem,"],
+///     search(query, contents, false)
+/// );
+/// ```
 pub fn search<'a>(query: &str, contents: &'a str, case_sensitive: bool) -> Vec<&'a str> {
     if case_sensitive {
         return contents
