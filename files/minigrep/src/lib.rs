@@ -11,12 +11,19 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn new(args: &[String]) -> Result<Config, &'static str> {
-        if args.len() < 3 {
-            return Err("lack of required arguments");
-        }
-        let query = args[1].clone();
-        let file_name = args[2].clone();
+    pub fn new(mut args: env::Args) -> Result<Config, &'static str> {
+        args.next();
+
+        let query: String = match args.next() {
+            Some(arg) => arg,
+            None => return Err("lack of required argument: query str"),
+        };
+
+        let file_name: String = match args.next() {
+            Some(arg) => arg,
+            None => return Err("lack of required argument: lookup file"),
+        };
+
         let case_sensitive: bool = env::var("CASE_INSENSITIVE").is_err();
 
         Ok(Config {
@@ -67,26 +74,18 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
 
 pub fn search<'a>(query: &str, contents: &'a str, case_sensitive: bool) -> Vec<&'a str> {
     if case_sensitive {
-        let mut return_values: Vec<&str> = vec![];
-
-        for line in contents.lines() {
-            if line.contains(query) {
-                return_values.push(line.trim());
-            }
-        }
-        return return_values;
+        return contents
+            .lines()
+            .filter(|line| line.contains(query))
+            .collect();
     }
 
-    let mut return_values: Vec<&str> = vec![];
     let query: String = query.to_lowercase();
 
-    for line in contents.lines() {
-        if line.to_lowercase().contains(&query) {
-            return_values.push(line.trim());
-        }
-    }
-
-    return_values
+    contents
+        .lines()
+        .filter(|line| line.contains(&query))
+        .collect()
 }
 
 #[cfg(test)]
