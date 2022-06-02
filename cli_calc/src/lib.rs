@@ -1,7 +1,5 @@
-#[allow(unused_imports)]
-use error::Error;
 use regex::Regex;
-use std::{error, io};
+use std::io;
 
 mod utils;
 
