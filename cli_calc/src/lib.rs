@@ -1,8 +1,6 @@
 use regex::Regex;
 use std::io;
 
-mod utils;
-
 #[derive(Default)]
 pub struct Input {
     pub data: Option<String>,
