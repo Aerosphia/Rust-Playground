@@ -16,7 +16,9 @@ impl Input {
         println!("Enter a calculation:");
         io::stdin().read_line(&mut data).expect("Error");
 
-        Ok(Input { data: Some(data) })
+        let data: Option<String> = Some(data);
+
+        Ok(Input { data })
     }
 
     pub fn calc(&self) -> Result<i32, String> {
