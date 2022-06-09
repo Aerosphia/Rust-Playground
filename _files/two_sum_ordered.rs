@@ -29,10 +29,7 @@ impl Solution {
                 }
             }
         };
-        match result {
-            Some(vector) => vector,
-            None => panic!("No result"),
-        }
+        result.expect("No result")
     }
 }
 
