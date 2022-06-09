@@ -24,11 +24,8 @@ impl Solution {
         // the corresponding number value for the roman numeral
         // inside the vector.
         for c in s.chars() {
-            // Guaranteed user validation.
-            match roman_equiv(c) {
-                Some(v) => number_vector.push(v),
-                None => panic!("No correspondent or out of range [1, 3999]"),
-            }
+            let to_push: char = roman_equiv(c).expect("No correspondent or out of range [1, 3999]");
+            number_vector.push(to_push);
         }
 
         // If a roman numeral is less than the one before it, we want to
