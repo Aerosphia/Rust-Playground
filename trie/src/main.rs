@@ -1,5 +1,7 @@
 use std::collections::HashMap;
 
+mod english_words;
+
 #[derive(Debug)]
 struct Trie {
     map: HashMap<char, Option<Trie>>,
@@ -36,7 +38,7 @@ impl Trie {
         current_node.contains_key(&'\0')
     }
 
-    fn insert(&mut self, word: &str) -> () {
+    fn insert(&mut self, word: &str) {
         let mut current_node = &mut self.map;
         for ch in word.chars() {
             let entry = current_node.entry(ch).or_insert_with(|| {
@@ -65,28 +67,35 @@ impl Trie {
     }
     */
 
-    fn correct<'a>(&self, word: &'a str) -> &'a str {
-        if self.search(word) {
-            return word;
+    fn correct(&self, word: &str) -> Vec<String> {
+        if self.search(word) || word.is_empty() {
+            return vec![word.to_owned()];
         }
 
-        let mut lcp = String::new();
+        let mut progress = String::new();
         let mut current_node = &self.map;
+        let mut to_return = vec![];
 
         for ch in word.chars() {
             if let Some(value) = current_node.get(&ch) {
                 current_node = &value.as_ref().unwrap().map;
-                lcp.push(ch);
+                progress.push(ch);
+                continue;
+            }
+
+            for (k, _) in current_node.iter() {
+                if *k != '\0' {
+                    let to_push = format!("{progress}{}", *k);
+                    to_return.push(to_push);
+                }
             }
         }
 
-        println!("{lcp}");
-        return "Hello";
+        to_return
     }
 }
 
 fn main() {
-    let my_trie: Trie = Trie::new_with(&["cat", "catnap"]);
-    println!("{}", my_trie.correct("catn"));
-    //println!("{:?}", my_trie.map);
+    let my_trie: Trie = Trie::new_with(english_words::get());
+    println!("{:?}", my_trie.correct("penax"));
 }
