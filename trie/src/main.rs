@@ -16,6 +16,7 @@ fn main() {
         let re_search = Regex::new(r"^SEARCH (.*)").unwrap();
         let re_insert = Regex::new(r"^INSERT (.*)").unwrap();
         let re_correct = Regex::new(r"^(AUTOCORRECT|CORRECT) (.*)").unwrap();
+        let re_read = Regex::new(r"^READ").unwrap();
         let re_reset = Regex::new(r"^RESET").unwrap();
         let re_exit = Regex::new(r"^EXIT").unwrap();
 
@@ -50,6 +51,9 @@ fn main() {
                 }
                 continue;
             }
+        } else if re_read.is_match(&command) {
+            trie.read(|data| println!("{data}"));
+            continue;
         } else if re_reset.is_match(&command) {
             trie = Trie::new();
             continue;
@@ -57,12 +61,13 @@ fn main() {
             process::exit(0);
         } else {
             println!(
-                "\n{}\n\n{}\n{}\n{}\n{}\n{}\n{}\n",
+                "\n{}\n\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n",
                 "Invalid Command".red(),
                 "ADD list".bold(),
                 "SEARCH query".bold(),
                 "INSERT query".bold(),
                 "CORRECT query".bold(),
+                "READ".bold(),
                 "RESET".bold(),
                 "EXIT".bold(),
             );

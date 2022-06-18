@@ -33,7 +33,7 @@ impl Trie {
                 current_node = &unwrapped.map;
             }
         }
-        current_node.contains_key(&'\0')
+        current_node.contains_key(&'*')
     }
 
     pub fn insert(&mut self, word: &str) {
@@ -47,19 +47,31 @@ impl Trie {
 
             current_node = &mut entry.as_mut().unwrap().map;
         }
-        current_node.insert('\0', None);
+        current_node.insert('*', None);
     }
 
-    /*
-    fn read<F>(&self, func: F) -> ()
+    pub fn read<F>(&self, func: F)
     where
-        F: FnOnce(String),
+        F: FnOnce(&str),
     {
+        let mut current_node = Some(&self.map);
         let mut return_str = String::new();
 
+        while current_node.is_some() {
+            let unwrapped = current_node.unwrap();
+            for (k, v) in unwrapped {
+                return_str.push_str(&format!("{}\n", k));
+                if v.is_some() {
+                    current_node = Some(&v.as_ref().unwrap().map);
+                } else {
+                    current_node = None;
+                }
+            }
+        }
 
+        let return_str = return_str.trim();
+        func(return_str);
     }
-    */
 
     pub fn correct(&self, word: &str) -> Vec<String> {
         if self.search(word) || word.is_empty() {
