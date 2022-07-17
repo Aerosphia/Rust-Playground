@@ -64,7 +64,7 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
         matches.push(line);
     }
 
-    if matches.len() > 0 {
+    if !matches.is_empty() {
         println!("Found some matches!\n\n{}", matches.join("\n"));
     } else {
         println!("I couldn't find anything!");
