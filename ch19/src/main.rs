@@ -1,18 +1,57 @@
-fn main() {
-    let mut unreversed: Vec<&'static str> = vec!["Hello", "World"];
-    let reversed: Vec<&'static str> = reverse_vector(&mut unreversed);
-    println!("{:?}", reversed);
+struct Graph<T: Copy> {
+    graph: Vec<Vertex<T>>,
 }
 
-// Reverses a vector with O(1) extra space complexity.
-fn reverse_vector<T>(vector: &mut Vec<T>) -> Vec<T>
+struct Vertex<T: Copy> {
+    value: T,
+    visited: bool,
+    adjacent: Vec<Vertex<T>>,
+}
+
+struct Queue<T> {
+    queue: Vec<T>,
+}
+
+impl<T> Queue<T> {
+    fn new() -> Self {
+        Queue { queue: vec![] }
+    }
+
+    fn enqueue(&mut self, item: T) {
+        self.queue.push(item);
+    }
+
+    fn dequeue(&mut self) {
+        self.queue.remove(0);
+    }
+
+    fn read(&self) -> Option<&T> {
+        self.queue.get(0)
+    }
+}
+
+fn bfs_traversal<T>(mut vertex: &mut Vertex<T>)
 where
     T: Copy,
 {
-    for v in 1..vector.len() {
-        vector.insert(0, vector[v]);
-        vector.remove(v + 1);
-    }
+    let mut queue: Queue<Vertex<T>> = Queue::new();
 
-    vector.to_vec()
+    loop {
+        let read_value: Option<&Vertex<T>> = queue.read();
+
+        if let Some(value) = read_value {
+            vertex = &mut value;
+        } else {
+            break;
+        }
+
+        for adj_vertex in vertex.adjacent.iter_mut() {
+            if !adj_vertex.visited {
+                queue.enqueue(*adj_vertex); // fix this
+                adj_vertex.visited = true;
+            }
+        }
+    }
 }
+
+fn main() {}
