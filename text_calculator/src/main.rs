@@ -1,34 +1,42 @@
 use colored::*;
-use crossterm::{Result, TerminalCursor};
 use std::{io, panic};
 
 mod utils;
 
-fn main() -> Result<()> {
-    let cursor = TerminalCursor::new();
+fn main() {
+    panic::set_hook(Box::new(|err| {
+        let parsed: String = match err.payload().downcast_ref::<&str>() {
+            Some(info) => info.to_string(),
+            None => match err.payload().downcast_ref::<String>() {
+                Some(message) => message.clone(),
+                None => "no_info".to_string(),
+            },
+        };
+        eprintln!("There was a critical error: {}", parsed);
+    }));
 
     let mut calculator_input: String = String::new();
 
     utils::flush();
     print!(
-        "\nText Calculator v1.0.0\n\nFor help, run {}\n\n{}",
-        "> help".red().italic(),
-        "> ".yellow().italic()
+        "\nText Calculator v1.0.0\n\nFor help, run {}\n\n",
+        "> help".red().italic()
     );
     utils::flush();
 
-    io::stdin().read_line(&mut calculator_input)?;
-    cursor.blink(true)?;
+    loop {
+        utils::flush();
+        print!("{}", "> ".yellow().italic());
+        utils::flush();
 
-    panic::set_hook(Box::new(|err| {
-        let parsed: &str;
+        io::stdin()
+            .read_line(&mut calculator_input)
+            .expect("fail read line");
 
-        match err.payload().downcast_ref::<&str>() {
-            Some(info) => parsed = info,
-            None => parsed = "<no_info>",
-        }
-        eprintln!("There was a critical error: {}", parsed);
-    }));
+        calculator_input = calculator_input.trim().to_string();
+        let vector_input: Vec<&str> = calculator_input.split("").collect();
+        println!("{:?}", vector_input);
 
-    Ok(())
+        println!("{}", "Command not recognized\n".italic());
+    }
 }

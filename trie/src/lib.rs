@@ -90,7 +90,7 @@ impl Trie {
             }
 
             for (k, _) in current_node.iter() {
-                if *k != '\0' {
+                if *k != '*' {
                     let to_push = format!("{progress}{}", *k);
                     to_return.push(to_push);
                 }
