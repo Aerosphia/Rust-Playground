@@ -1,4 +1,8 @@
-use std::{fs::File, io::Write, ops::Drop};
+use std::{
+    fs::File,
+    io::Write,
+    ops::{Deref, DerefMut, Drop},
+};
 
 struct DropTest {
     name: String,
@@ -11,12 +15,31 @@ struct WriteTest<T: ?Sized> {
     foo: Box<T>,
 }
 
+struct DerefTest<T> {
+    vec: Vec<T>,
+    indexer: usize,
+}
+
 impl Drop for DropTest {
     fn drop(&mut self) {
         print!("Destroying the town `{}`", self.name);
         if !self.homes.is_empty() {
             print!(" containing the household(s): {}", self.homes.join(", "));
         }
+    }
+}
+
+impl<T> Deref for DerefTest<T> {
+    // Might need further clarification on the following line.
+    type Target = T;
+    fn deref(&self) -> &T {
+        &self.vec[self.indexer]
+    }
+}
+
+impl<T> DerefMut for DerefTest<T> {
+    fn deref_mut(&mut self) -> &mut T {
+        &mut self.vec[self.indexer]
     }
 }
 
@@ -39,6 +62,16 @@ fn main() -> std::io::Result<()> {
         let _sized_test: WriteTest<dyn Write> = WriteTest {
             foo: Box::new(file),
         };
+    }
+
+    // Testing Deref & DerefMut with custom implementations.
+    {
+        let deref_testing: DerefTest<char> = DerefTest {
+            vec: vec!['a', 'b', 'c'],
+            indexer: 2,
+        };
+
+        assert_eq!(*deref_testing, 'c')
     }
 
     Ok(())
