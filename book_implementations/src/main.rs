@@ -17,6 +17,9 @@ impl Drop for Town {
 fn main() {
     // Testing the Drop utility trait.
     {
-        let _home_town: Town = Town { name: String::from("foo"), homes: vec![String::from("abc123"), String::from("def456")] };
+        let _home_town: Town = Town {
+            name: String::from("foo"),
+            homes: vec![String::from("abc123"), String::from("def456")],
+        };
     }
 }
