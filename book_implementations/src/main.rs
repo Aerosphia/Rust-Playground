@@ -1,5 +1,6 @@
 use std::{
     fs::File,
+    io,
     io::Write,
     ops::{Deref, DerefMut, Drop},
 };
@@ -43,7 +44,7 @@ impl<T> DerefMut for DerefTest<T> {
     }
 }
 
-fn main() -> std::io::Result<()> {
+fn main() -> io::Result<()> {
     // Testing the Drop utility trait.
     {
         let _home_town: DropTest = DropTest {
